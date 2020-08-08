@@ -1,5 +1,5 @@
 {
-  "name": "Task Api",
+  "name": "Task-Api",
   "version": "1.0.0",
   "description": "Task CRUD",
   "main": "server.js",
