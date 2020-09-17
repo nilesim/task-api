@@ -20,17 +20,18 @@ const morgan = require('morgan') // logs requests
 
 // db Connection w/ localhost
 var db = require('knex')({
-  client: 'pg',
+  client: 'oracledb',
   connection: {
-    host : '127.0.0.1',
-    user : '',
-    password : '',
-    database : 'crud-practice-1'
+    host : '10.201.237.54',
+    user : 'RADAR',
+    password : 'd_RADAR',
+    database : 'tradbdev'
   }
 });
 
 // Controllers - aka, the db queries
-const main = require('./controllers/main')
+const reconController = require('./controllers/reconController')
+const taskController = require('./controllers/taskController')
 
 // App
 const app = express()
@@ -52,11 +53,17 @@ app.use(bodyParser.json())
 app.use(morgan('combined')) // use 'tiny' or 'combined'
 
 // App Routes - Auth
-app.get('/', (req, res) => res.send('hello world'))
-app.get('/crud', (req, res) => main.getTableData(req, res, db))
-app.post('/crud', (req, res) => main.postTableData(req, res, db))
-app.put('/crud', (req, res) => main.putTableData(req, res, db))
-app.delete('/crud', (req, res) => main.deleteTableData(req, res, db))
+app.get('/', (req, res) => res.send('Welcome To Radar CRUD App'))
+app.get('/recon', (req, res) => reconController.getTableData(req, res, db))
+app.post('/recon', (req, res) => reconController.postTableData(req, res, db))
+app.put('/recon', (req, res) => reconController.putTableData(req, res, db))
+app.delete('/recon', (req, res) => reconController.deleteTableData(req, res, db))
+
+app.get('/task', (req, res) => taskController.getTaskData(req, res, db))
+app.post('/task', (req, res) => taskController.postTaskData(req, res, db))
+app.put('/task', (req, res) => taskController.putTaskData(req, res, db))
+app.delete('/task', (req, res) => taskController.deleteTaskData(req, res, db))
+
 
 // App Server Connection
 app.listen(process.env.PORT || 3000, () => {
