@@ -1,7 +1,18 @@
+
+const TaskColumns = {
+  TASK_ID: {
+    title : "Task Id ",
+    align: "left",
+    editable: "false"
+  }
+}
+
 const getTaskData = (req, res, db) => {
     db.select('*').from('RADAR_TASKS')
       .then(items => {
         if(items.length){
+
+          const tableData = {rows: items, columns : TaskColumns}
           res.json(items)
         } else {
           res.json({dataExists: 'false'})

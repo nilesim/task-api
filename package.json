@@ -16,7 +16,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.2",
+    "ldap-authentication": "^2.2.6",
+    "ldapjs": "^2.2.2",
     "morgan": "^1.10.0",
     "oracledb": "^5.0.0",
     "pg": "^8.3.0"
