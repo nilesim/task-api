@@ -32,6 +32,7 @@ var db = require('knex')({
 // Controllers - aka, the db queries
 const reconController = require('./controllers/reconController')
 const taskController = require('./controllers/taskController')
+const taskVersionController = require('./controllers/taskVersionController')
 const schedulerController = require('./controllers/schedulerController')
 const ldapController = require('./controllers/ldapController')
 
@@ -65,6 +66,11 @@ app.get('/task', (req, res) => taskController.getTaskData(req, res, db))
 app.post('/task', (req, res) => taskController.postTaskData(req, res, db))
 app.put('/task', (req, res) => taskController.putTaskData(req, res, db))
 app.delete('/task', (req, res) => taskController.deleteTaskData(req, res, db))
+
+app.get('/taskversion', (req, res) => taskVersionController.getTaskVersionData(req, res, db))
+app.post('/taskversion', (req, res) => taskVersionController.postTaskVersionData(req, res, db))
+app.put('/taskversion', (req, res) => taskVersionController.putTaskVersionData(req, res, db))
+app.delete('/taskversion', (req, res) => taskVersionController.deleteTaskVersionData(req, res, db))
 
 app.get('/scheduler', (req, res) => schedulerController.getSchedulerData(req, res, db))
 app.post('/scheduler', (req, res) => schedulerController.postSchedulerData(req, res, db))

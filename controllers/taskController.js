@@ -4,6 +4,16 @@ const TaskColumns = {
     title : "Task Id ",
     align: "left",
     editable: "false"
+  },
+  TASK_NAME: {
+    title : "Task Name ",
+    align: "left",
+    editable: "true"
+  }, 
+  TASK_TYPE: {
+    title : "Task Type ",
+    align: "left",
+    editable: "true"
   }
 }
 
@@ -11,7 +21,7 @@ const getTaskData = (req, res, db) => {
     db.select('*').from('RADAR_TASKS')
       .then(items => {
         if(items.length){
-
+          console.log(items);
           const tableData = {rows: items, columns : TaskColumns}
           res.json(items)
         } else {
@@ -29,7 +39,7 @@ const getTaskData = (req, res, db) => {
       .then(item => {
         res.json(item)
       })
-      .catch(err => res.status(400).json({dbError: 'db error: ' + err + ' : ' + first + " , " + last + " , " + email }))
+      .catch(err => res.status(400).json({dbError: 'db error: ' + err}))
   }
   
   const putTaskData = (req, res, db) => {
@@ -39,16 +49,21 @@ const getTaskData = (req, res, db) => {
       .then(item => {
         res.json({ TASK_ID, TASK_NAME, TASK_TYPE })
       })
-      .catch(err => res.status(400).json({dbError: 'db error'}))
+      .catch(err => res.status(400).json({dbError: 'db error: ' + err}))
   }
   
   const deleteTaskData = (req, res, db) => {
-    const { TASK_ID } = req.body
-    db('RADAR_TASKS').where({TASK_ID}).del()
+    let errors = [];
+    req.body.payload.map( item => {
+      const { TASK_ID } = item;
+      console.log(item);
+      console.log(TASK_ID);
+      db('RADAR_TASKS').where({TASK_ID}).del()
       .then(() => {
         res.json({delete: 'true'})
       })
-      .catch(err => res.status(400).json({dbError: 'db error'}))
+      .catch(err => res.status(400).json({dbError: 'db error: ' + err}))
+    });
   }
   
   module.exports = {
