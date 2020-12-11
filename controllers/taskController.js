@@ -2,17 +2,17 @@
 const TaskColumns = {
   TASK_ID: {
     title : "Task Id ",
-    align: "left",
+    width: 100,
     editable: "false"
   },
   TASK_NAME: {
     title : "Task Name ",
-    align: "left",
+    width: 250,
     editable: "true"
   }, 
   TASK_TYPE: {
     title : "Task Type ",
-    align: "left",
+    width: 100,
     editable: "true"
   }
 }
@@ -32,7 +32,7 @@ const getTaskData = (req, res, db) => {
   }
   
   const postTaskData = (req, res, db) => {
-    const { TASK_ID, TASK_NAME, TASK_TYPE } = req.body
+    const { TASK_ID, TASK_NAME, TASK_TYPE } = req.body.payload
     const added = new Date()
     db('RADAR_TASKS').insert({TASK_ID, TASK_NAME, TASK_TYPE})
       .returning('*')
@@ -43,7 +43,7 @@ const getTaskData = (req, res, db) => {
   }
   
   const putTaskData = (req, res, db) => {
-    const { TASK_ID, TASK_NAME, TASK_TYPE } = req.body
+    const { TASK_ID, TASK_NAME, TASK_TYPE } = req.body.payload
     db('RADAR_TASKS').where({TASK_ID}).update({TASK_ID, TASK_NAME, TASK_TYPE})
       .returning('*')
       .then(item => {

@@ -23,8 +23,7 @@ const getSchedulerData = (req, res, db) => {
   }
   
   const postSchedulerData = (req, res, db) => {
-    const { SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS } = req.body
-    const added = new Date()
+    const { SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS } = req.body.payload
     db('RADAR_SCHEDULER').insert({SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS})
       .returning('*')
       .then(item => {
@@ -34,7 +33,7 @@ const getSchedulerData = (req, res, db) => {
   }
   
   const putSchedulerData = (req, res, db) => {
-    const { SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS } = req.body
+    const { SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS } = req.body.payload
     db('RADAR_SCHEDULER').where({SCHEDULER_ID}).update({SCHEDULER_ID, TASK_ID, SCHEDULER_TYPE, SCHEDULER_EXP, STATUS})
       .returning('*')
       .then(item => {
@@ -44,12 +43,15 @@ const getSchedulerData = (req, res, db) => {
   }
   
   const deleteSchedulerData = (req, res, db) => {
-    const { TASK_ID } = req.body
-    db('RADAR_SCHEDULER').where({SCHEDULER_ID}).del()
-      .then(() => {
-        res.json({delete: 'true'})
-      })
-      .catch(err => res.status(400).json({dbError: 'db error'}))
+    let errors = [];
+    req.body.payload.map( item => {
+      const { TASK_ID } = item
+      db('RADAR_SCHEDULER').where({SCHEDULER_ID}).del()
+        .then(() => {
+          res.json({delete: 'true'})
+        })
+        .catch(err => res.status(400).json({dbError: 'db error'}))
+      });
   }
   
   module.exports = {
