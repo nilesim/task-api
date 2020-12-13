@@ -45,13 +45,17 @@ const authenticate = (req, res) => {
                 const token = jwt.sign(user, "radar#secret");
                 res.json({ token, user });    
             } else {
-                res.status(403).json({ 
-                    error : "User could not be found or unauthorized."
-                 });    
+                res.status(401).json({ 
+                    error : "User could not be found or unauthorized.",
+                    errorMessage  :"User could not be found or unauthorized."
+                 });     
             }
             debugger;
         } catch (error) {
-            debugger;
+          res.status(403).json({ 
+            error : "User could not be found or unauthorized.",
+            errorText  :"User could not be found or unauthorized."
+         });   
         }
 
     })
